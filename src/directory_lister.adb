@@ -3,6 +3,7 @@
 -- GPL 2.0
 
 with Ada.Command_Line;
+with Ada.Directories;
 with Ada.Exceptions;
 with Ada.Strings.Fixed; 
 with Ada.Strings.Unbounded; 
@@ -11,6 +12,7 @@ with GNAT.Directory_Operations;
 with GNAT.OS_Lib;
 
 use Ada.Command_Line;
+use Ada.Directories;    -- Current_Directory
 use Ada.Exceptions;
 use Ada.Strings.Fixed;
 use Ada.Strings.Unbounded; 
@@ -52,9 +54,13 @@ procedure Directory_Lister is
 
 -- Directory_Lister
 begin
-    for i in Natural range 1..Argument_Count loop
-        List_Directory(Argument(i));
-    end loop;
+    if Argument_Count > 0 then
+        for i in Natural range 1..Argument_Count loop
+            List_Directory(Argument(i));
+        end loop;
+    else
+        List_Directory(Current_Directory);
+    end if;
 exception
     when e:others => Put_Line(Exception_Name(e) & ": " & Exception_Message(e));
 end Directory_Lister;

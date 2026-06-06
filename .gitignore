@@ -6,3 +6,6 @@
 
 obj_debug/
 obj_release/
+
+# Vim
+*.swp
