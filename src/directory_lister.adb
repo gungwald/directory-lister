@@ -23,20 +23,20 @@ use GNAT.OS_Lib;
 procedure Directory_Lister is
 
     procedure Print_Entry(Dir_Name: in String; Entry_Name: in String) is
-        Full_Name : Unbounded_String;
+        Full_Name : String;
     begin
         Put(Entry_Name);
-        Full_Name := To_Unbounded_String(Dir_Name & Dir_Separator & Entry_Name);
+        Full_Name := Dir_Name & Dir_Separator & Entry_Name;
         if Is_Directory(To_String(Full_Name)) then
             Put_Line("/");
         else
-            Put_Line("");
+            New_Line();
         end if;
     end Print_Entry;
 
     procedure List_Directory(Dir_Name: in String) is
         d : Dir_Type;
-        Dir_Entry : String(1..1024);
+        Dir_Entry : String;
         Last_Char_Index : Natural;
     begin
         Open(d, Dir_Name);
@@ -49,7 +49,14 @@ procedure Directory_Lister is
         end loop;
         Close(d);
     exception
-        when e:others => Put_Line("Directory " & Dir_name & ": " & Exception_Name(e));
+        -- Thrown by Open
+        when e:File_Not_Found => 
+            Put_Line("Directory " & Dir_name & "was not found: " & Exception_Name(e) & ": " & Exception_Message(e));
+        -- Thrown by Read
+        when e:End_Of_File => 
+            Close(d);
+        when e:others =>
+            Put_Line("Directory " & Dir_name & ": " & Exception_Name(e) & ": " & Exception_Message(e) & ": " & Exception_Information(e));
     end List_Directory;
 
 -- Directory_Lister
