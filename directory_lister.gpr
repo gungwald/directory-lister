@@ -1,9 +1,9 @@
-project Directorylister is
+project Directory_Lister is
 
    type Build_Modes is
       ("Release", "Debug");
    Mode : Build_Modes := external ("BUILD", "Debug");
-   for Main use ("directorylister.adb");
+   for Main use ("directory_lister.adb");
    for Source_Dirs use ("src");
 
    case Mode is
@@ -42,4 +42,4 @@ project Directorylister is
    package Ide is
    end Ide;
 
-end Directorylister;
+end Directory_Lister;

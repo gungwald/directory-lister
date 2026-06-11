@@ -49,17 +49,16 @@ procedure Directory_Lister is
         Last_Char_Index : Natural;
     begin
         Open(d, Dir_Name);
-        loop
-            Read(d, Dir_Entry, Last_Char_Index);
-            exit when Last_Char_Index = 0;
+        Read(d, Dir_Entry, Last_Char_Index);
+        while Last_Char_Index /= 0 loop
             if Dir_Entry(1) /= '.' then
                 Print_Entry(Dir_Name, Dir_Entry(1..Last_Char_Index));
             end if;
+            Read(d, Dir_Entry, Last_Char_Index);
         end loop;
         Close_Carefully(d, Dir_Name);
     exception
-        -- Thrown by directory operations
-        when e:Directory_Error => 
+        when e:Directory_Error => -- Directory_Error is thrown by Open and Read.
             Put_Line("Directory operation failed: " & Dir_name & ": " & Exception_Name(e) & ": " & Exception_Message(e) & ": " & Exception_Information(e));
             Close_Carefully(d, Dir_Name);
         when e:others =>
@@ -67,7 +66,7 @@ procedure Directory_Lister is
             Close_Carefully(d, Dir_Name);
     end List_Directory;
 
--- Directory_Lister
+-- Main Program
 begin
     if Argument_Count > 0 then
         for i in Natural range 1..Argument_Count loop

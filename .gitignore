@@ -4,6 +4,9 @@
 # Ada Library Information
 *.ali
 
+# Ada junk
+b~*
+
 obj_debug/
 obj_release/
 
