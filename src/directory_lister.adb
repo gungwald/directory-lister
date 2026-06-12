@@ -5,7 +5,6 @@
 with Ada.Command_Line;
 with Ada.Directories;
 with Ada.Exceptions;
-with Ada.Strings.Fixed; 
 with Ada.Text_IO; 
 with GNAT.Directory_Operations;
 with GNAT.OS_Lib;
@@ -13,7 +12,6 @@ with GNAT.OS_Lib;
 use Ada.Command_Line;
 use Ada.Directories;    -- Current_Directory
 use Ada.Exceptions;
-use Ada.Strings.Fixed;
 use Ada.Text_IO;
 use GNAT.Directory_Operations;
 use GNAT.OS_Lib;
@@ -33,7 +31,7 @@ procedure Directory_Lister is
     end Close_Carefully;
     
     procedure Print_Entry(Dir_Name: in String; Entry_Name: in String) is
-        Full_Name : String := Dir_Name & Dir_Separator & Entry_Name;
+        Full_Name : constant String := Dir_Name & Dir_Separator & Entry_Name;
     begin
         Put(Entry_Name);
         if Is_Directory(Full_Name) then
